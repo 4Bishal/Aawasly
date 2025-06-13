@@ -1,0 +1,87 @@
+.error-page {
+  text-align: center;
+  padding: 100px 20px;
+  color: #b02a37; /* Bootstrap danger color */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.error-code {
+  font-size: 8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+}
+
+.error-message {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.error-description {
+  font-size: 1rem;
+  color: #6c757d; /* Bootstrap secondary text */
+  margin-bottom: 3rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-home {
+  background-color: #b02a37;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 0.3rem;
+  border: none;
+  text-decoration: none;
+}
+
+.btn-home:hover {
+  background-color: #7a1a22;
+  color: white;
+  text-decoration: none;
+}
+
+/* Listing not found page css */
+.not-found {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 1.5rem 2rem;
+  border: 1px solid #ccc; /* light gray border */
+  border-radius: 0.5rem;
+  background-color: #f4f4f4; /* calm gray background */
+  color: #333; /* dark gray text */
+  text-align: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* subtle soft shadow */
+}
+
+.not-found .info {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.not-found .goto-Page .btn {
+  background-color: #4a6fa5; /* calm blue */
+  color: white;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 0.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  box-shadow: 0 2px 6px rgba(74, 111, 165, 0.2);
+}
+
+.not-found .goto-Page .btn:hover {
+  background-color: #3b5d89; /* darker blue on hover */
+  box-shadow: 0 4px 12px rgba(59, 93, 137, 0.3);
+}
+
+.not-found .goto-Page .btn a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+}

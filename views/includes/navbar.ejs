@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-md border-bottom sticky-top bg-white">
+  <div class="container-fluid">
+    <!-- Logo -->
+    <a class="navbar-brand" href="/listing">
+      <img src="/images/logo.png" alt="Logo" class="logo-img" />
+    </a>
+
+    <!-- Toggler for mobile -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Items -->
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div
+        class="navbar-nav flex-column flex-md-row w-100 align-items-md-center"
+      >
+        <!-- Explore Link -->
+        <a class="nav-link" href="/listing">Explore</a>
+
+        <!-- Search Form -->
+        <form
+          action="/listing/search"
+          method="post"
+          class="d-flex my-2 my-md-0 ms-md-3 flex-grow-1"
+          role="search"
+        >
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search destinations"
+            name="destination"
+          />
+          <button class="btn btn-outline-dark" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i> Search
+          </button>
+        </form>
+
+        <!-- Right Side Links -->
+        <div
+          class="d-flex flex-column flex-md-row ms-md-auto mt-3 mt-md-0 align-items-md-center"
+        >
+          <a class="nav-link" href="/listing/new">Aawasly your home</a>
+          <% if (!currUser) { %>
+          <a class="nav-link" href="/signup"><b>Sign up</b></a>
+          <a class="nav-link" href="/login"><b>Log in</b></a>
+          <% } else { %>
+          <a class="nav-link" href="/logout"><b>Log out</b></a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
