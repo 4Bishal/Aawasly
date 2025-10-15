@@ -2,7 +2,13 @@
 <div class="row mt-3">
   <h1 class="col-8 offset-3">Login</h1>
   <div class="col col-6 offset-3">
-    <form action="/login" method="post" class="needs-validation" novalidate>
+    <form
+      id="loginForm"
+      action="/login"
+      method="post"
+      class="needs-validation"
+      novalidate
+    >
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
         <input
@@ -23,7 +29,35 @@
           required
         />
       </div>
-      <button class="btn btn-success">Login</button>
+      <button id="loginBtn" class="btn btn-success" type="submit">
+        <span class="btn-text">Login</span>
+        <span
+          class="spinner-border spinner-border-sm d-none"
+          role="status"
+          aria-hidden="true"
+        ></span>
+      </button>
     </form>
   </div>
 </div>
+
+<script>
+  const form = document.getElementById("loginForm");
+  const btn = document.getElementById("loginBtn");
+  const spinner = btn.querySelector(".spinner-border");
+  const btnText = btn.querySelector(".btn-text");
+
+  form.addEventListener("submit", (e) => {
+    // Check HTML5 validation
+    if (!form.checkValidity()) {
+      e.preventDefault(); // prevent submission if invalid
+      form.classList.add("was-validated");
+      return;
+    }
+
+    // Disable button to prevent multiple clicks
+    btn.disabled = true;
+    btnText.textContent = "Logging in...";
+    spinner.classList.remove("d-none");
+  });
+</script>

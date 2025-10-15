@@ -2,7 +2,13 @@
 <div class="row mt-3">
   <h1 class="col-8 offset-3">SignUp on Aawasly</h1>
   <div class="col col-6 offset-3">
-    <form action="/signup" method="post" class="needs-validation" novalidate>
+    <form
+      id="signupForm"
+      action="/signup"
+      method="post"
+      class="needs-validation"
+      novalidate
+    >
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
         <input
@@ -34,7 +40,35 @@
           required
         />
       </div>
-      <button class="btn btn-success">SignUp</button>
+      <button id="signupBtn" class="btn btn-success" type="submit">
+        <span class="btn-text">SignUp</span>
+        <span
+          class="spinner-border spinner-border-sm d-none"
+          role="status"
+          aria-hidden="true"
+        ></span>
+      </button>
     </form>
   </div>
 </div>
+
+<script>
+  const form = document.getElementById("signupForm");
+  const btn = document.getElementById("signupBtn");
+  const spinner = btn.querySelector(".spinner-border");
+  const btnText = btn.querySelector(".btn-text");
+
+  form.addEventListener("submit", (e) => {
+    // Validate HTML5 fields
+    if (!form.checkValidity()) {
+      e.preventDefault(); // prevent submission if invalid
+      form.classList.add("was-validated");
+      return;
+    }
+
+    // Disable button and show spinner
+    btn.disabled = true;
+    btnText.textContent = "Signing Up...";
+    spinner.classList.remove("d-none");
+  });
+</script>
