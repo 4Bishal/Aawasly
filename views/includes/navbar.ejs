@@ -36,8 +36,19 @@
             placeholder="Search destinations"
             name="destination"
           />
-          <button class="btn btn-outline-dark" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i> Search
+          <button
+            class="btn btn-outline-dark submit-btn"
+            type="submit"
+            data-processing="Searching..."
+          >
+            <span class="btn-text"
+              ><i class="fa-solid fa-magnifying-glass"></i> Search</span
+            >
+            <span
+              class="spinner-border spinner-border-sm d-none"
+              role="status"
+              aria-hidden="true"
+            ></span>
           </button>
         </form>
 
@@ -57,3 +68,35 @@
     </div>
   </div>
 </nav>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const forms = document.querySelectorAll("form.needs-validation");
+
+    forms.forEach((form) => {
+      form.addEventListener("submit", (e) => {
+        // HTML5 validation
+        if (!form.checkValidity()) {
+          e.preventDefault();
+          form.classList.add("was-validated");
+          return;
+        }
+
+        // Find the submit button inside this form
+        const btn = form.querySelector(".submit-btn");
+        if (btn) {
+          const spinner = btn.querySelector(".spinner-border");
+          const btnText = btn.querySelector(".btn-text");
+
+          // Disable button and show spinner with dynamic text
+          btn.disabled = true;
+          if (btnText) {
+            const text = btn.getAttribute("data-processing") || "Processing...";
+            btnText.textContent = text;
+          }
+          if (spinner) spinner.classList.remove("d-none");
+        }
+      });
+    });
+  });
+</script>

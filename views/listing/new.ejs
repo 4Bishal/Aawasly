@@ -99,7 +99,50 @@
           <option value="Boats">Boats</option>
         </select>
       </div>
-      <button class="btn btn-dark add-btn mb-2">Add</button>
+      <button
+        class="btn btn-dark submit-btn mb-2"
+        type="submit"
+        data-processing="Adding..."
+      >
+        <span class="btn-text">Add</span>
+        <span
+          class="spinner-border spinner-border-sm d-none"
+          role="status"
+          aria-hidden="true"
+        ></span>
+      </button>
     </form>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const forms = document.querySelectorAll("form.needs-validation");
+
+    forms.forEach((form) => {
+      form.addEventListener("submit", (e) => {
+        // HTML5 validation
+        if (!form.checkValidity()) {
+          e.preventDefault();
+          form.classList.add("was-validated");
+          return;
+        }
+
+        // Find the submit button inside this form
+        const btn = form.querySelector(".submit-btn");
+        if (btn) {
+          const spinner = btn.querySelector(".spinner-border");
+          const btnText = btn.querySelector(".btn-text");
+
+          // Disable button and show spinner with dynamic text
+          btn.disabled = true;
+          if (btnText) {
+            const text = btn.getAttribute("data-processing") || "Processing...";
+            btnText.textContent = text;
+          }
+          if (spinner) spinner.classList.remove("d-none");
+        }
+      });
+    });
+  });
+</script>

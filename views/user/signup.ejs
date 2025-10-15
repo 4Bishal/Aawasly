@@ -40,7 +40,12 @@
           required
         />
       </div>
-      <button id="signupBtn" class="btn btn-success" type="submit">
+      <button
+        id="signupBtn"
+        class="btn btn-success"
+        type="submit"
+        data-processing="Signing up..."
+      >
         <span class="btn-text">SignUp</span>
         <span
           class="spinner-border spinner-border-sm d-none"
@@ -53,22 +58,33 @@
 </div>
 
 <script>
-  const form = document.getElementById("signupForm");
-  const btn = document.getElementById("signupBtn");
-  const spinner = btn.querySelector(".spinner-border");
-  const btnText = btn.querySelector(".btn-text");
+  document.addEventListener("DOMContentLoaded", () => {
+    const forms = document.querySelectorAll("form.needs-validation");
 
-  form.addEventListener("submit", (e) => {
-    // Validate HTML5 fields
-    if (!form.checkValidity()) {
-      e.preventDefault(); // prevent submission if invalid
-      form.classList.add("was-validated");
-      return;
-    }
+    forms.forEach((form) => {
+      form.addEventListener("submit", (e) => {
+        // HTML5 validation
+        if (!form.checkValidity()) {
+          e.preventDefault();
+          form.classList.add("was-validated");
+          return;
+        }
 
-    // Disable button and show spinner
-    btn.disabled = true;
-    btnText.textContent = "Signing Up...";
-    spinner.classList.remove("d-none");
+        // Find the submit button inside this form
+        const btn = form.querySelector(".submit-btn");
+        if (btn) {
+          const spinner = btn.querySelector(".spinner-border");
+          const btnText = btn.querySelector(".btn-text");
+
+          // Disable button and show spinner with dynamic text
+          btn.disabled = true;
+          if (btnText) {
+            const text = btn.getAttribute("data-processing") || "Processing...";
+            btnText.textContent = text;
+          }
+          if (spinner) spinner.classList.remove("d-none");
+        }
+      });
+    });
   });
 </script>
