@@ -1,149 +1,235 @@
-# Aawasly | Where Stays Begin
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="public/branding/logo-dark.png" />
+    <img src="public/branding/logo-light.png" alt="Aawasly logo" width="360" />
+  </picture>
+</p>
 
-A Next.js App Router migration of the original Express/EJS rental and review application, targeting Vercel and MongoDB Atlas. Prices are stored in **NPR before tax**; the shared display preference calculates **13% VAT** without changing stored prices. Light, Dark, and System themes use `next-themes` and shared Tailwind color tokens.
+<h1 align="center">Aawasly | Where Stays Begin</h1>
 
-## Run locally
+<p align="center">
+  Thoughtful spaces. Memorable stays.<br />
+  A full-stack accommodation discovery and property listing platform built by
+  <a href="https://bhandari-bishal.com.np/">Bishal Bhandari</a>.
+</p>
 
-Requires Node.js 22.15.1 or newer (22 or 24), npm, and an Atlas database or MongoDB replica set. Transactions require a replica set; a standalone local `mongod` is not sufficient.
+<p align="center">
+  <a href="#live-demo">Live Demo</a> ·
+  <a href="#features">Features</a> ·
+  <a href="#getting-started">Getting Started</a> ·
+  <a href="#deployment">Deployment</a> ·
+  <a href="docs/DEVELOPMENT.md">Developer Guide</a>
+</p>
 
-```sh
+## About the project
+
+Aawasly helps people discover places to stay, explore property details, and share their experiences through ratings and reviews. Hosts can create and manage their own listings, upload photos, and show their property's location on an interactive map.
+
+I originally built Aawasly with Node.js, Express, EJS, and MongoDB, then migrated it to Next.js App Router and TypeScript. The current application brings together a responsive interface, server-rendered pages, secure authentication, and reusable validation while preserving existing accounts and listing data.
+
+## Live demo
+
+**Coming soon — the Vercel deployment link will be added here.**
+
+<!-- After deploying, replace the sentence above with the following Markdown,
+     substituting your real public URL for YOUR_VERCEL_DEPLOYMENT_URL:
+
+     [Open Aawasly — Live Demo](YOUR_VERCEL_DEPLOYMENT_URL)
+
+     Also set NEXTAUTH_URL in Vercel to the same public HTTPS origin.
+-->
+
+**Source code:** [github.com/4Bishal/Aawasly](https://github.com/4Bishal/Aawasly)
+
+## Features
+
+- **Discover stays:** Responsive listing grids, property details, and image galleries.
+- **Search and filter:** Debounced destination search, categories, price ranges, ratings, amenities, sorting, and pagination.
+- **Host your space:** Create, edit, and delete listings with server-side ownership checks.
+- **Photos:** Signed Cloudinary uploads with file format, ownership, and size verification.
+- **Interactive maps:** MapTiler geocoding and light/dark property maps.
+- **Reviews and ratings:** Add reviews, delete your own reviews, and see optimistic updates with rollback when a request fails.
+- **Authentication:** NextAuth credentials login, HTTP-only JWT sessions, and compatibility with existing Passport passwords.
+- **NPR pricing:** Nepalese rupee formatting and a shared toggle for displaying prices with 13% VAT included.
+- **Theme preferences:** Light, Dark, and System modes through one floating theme control, with saved preferences.
+- **Consistent branding:** Theme-specific logos, app icons, favicons, and social sharing metadata.
+- **Loading and error states:** Skeleton loaders, route fallbacks, toast notifications, and keyboard focus indicators.
+
+This phase covers property discovery, hosting, and reviews. Reservations, availability calendars, payments, and wishlists are not implemented.
+
+## Preview
+
+![Aawasly brand preview — Where Stays Begin](public/branding/social-preview.png)
+
+### Application screenshots
+
+Screenshots will be added after deployment. Planned views include the explore page in both themes, a property detail page, and the listing creation form.
+
+<!-- Add actual application screenshots when available. Example:
+     ![Explore stays in light mode](docs/screenshots/explore-light.png)
+     Create the screenshot file before enabling this image link.
+-->
+
+## Tech stack
+
+| Area                 | Technology                                                         |
+| -------------------- | ------------------------------------------------------------------ |
+| Framework            | Next.js 16 App Router, React 19, Server Components, Server Actions |
+| Language             | TypeScript with strict mode                                        |
+| Styling              | Tailwind CSS 4, shadcn-style Radix UI primitives, Lucide React     |
+| Themes               | next-themes                                                        |
+| Database             | MongoDB Atlas and Mongoose                                         |
+| Authentication       | NextAuth.js with credentials and JWT sessions                      |
+| Forms and validation | React Hook Form and Zod                                            |
+| Client data          | TanStack Query with optimistic mutations                           |
+| Media                | Cloudinary                                                         |
+| Maps                 | MapTiler SDK and geocoding API                                     |
+| Notifications        | Sonner                                                             |
+| Testing              | Vitest, Testing Library, and a disposable MongoDB replica set      |
+| Deployment target    | Vercel                                                             |
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 22.15.1 or newer within the supported 22 or 24 release lines, and npm.
+- An active MongoDB Atlas cluster or a local MongoDB replica set. Transactions require a replica set.
+- Cloudinary and MapTiler credentials.
+
+### 1. Clone and install
+
+```bash
+git clone https://github.com/4Bishal/Aawasly.git
+cd Aawasly
+```
+
+Until the Next.js migration is merged into `main`, check out its branch before installing:
+
+```bash
+git switch refactor/aawasly-nextjs-migration
+```
+
+Install the dependencies:
+
+```bash
 npm ci
-npm run setup:env
+```
+
+### 2. Configure the environment
+
+Copy [.env.example](.env.example) to `.env.local` and fill in your own values:
+
+```bash
+cp .env.example .env.local
+```
+
+On PowerShell, use `Copy-Item .env.example .env.local`.
+
+| Variable                   | Description                                                             |
+| -------------------------- | ----------------------------------------------------------------------- |
+| `MONGODB_URI`              | Connection URI for your intended MongoDB database                       |
+| `NEXTAUTH_URL`             | `http://localhost:3000` locally; your public HTTPS origin when deployed |
+| `NEXTAUTH_SECRET`          | A random secret of at least 32 characters                               |
+| `CLOUDINARY_CLOUD_NAME`    | Your Cloudinary cloud name                                              |
+| `CLOUDINARY_API_KEY`       | Your Cloudinary API key                                                 |
+| `CLOUDINARY_API_SECRET`    | Your server-only Cloudinary API secret                                  |
+| `MAPTILER_API_KEY`         | Your server-side geocoding key                                          |
+| `NEXT_PUBLIC_MAPTILER_KEY` | Your browser-visible map key, restricted to your approved domains       |
+
+Generate a session secret with:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
+
+Keep `.env.local` out of version control. Only the browser MapTiler key uses the `NEXT_PUBLIC_` prefix.
+
+If you already have the legacy `.env`, `npm run setup:env` can create `.env.local` from it instead. The script does not overwrite an existing `.env.local` or change database records.
+
+### 3. Start the application
+
+```bash
 npm run dev
 ```
 
-Open http://localhost:3000/listing. On Windows PowerShell with execution policy restrictions, use `npm.cmd` instead of `npm`.
+Open [http://localhost:3000/listing](http://localhost:3000/listing).
 
-`setup:env` creates an ignored `.env.local` from the legacy `.env` **only if `.env.local` does not already exist**. It maps the existing Atlas, Cloudinary, and MapTiler variable names and generates a fresh session secret. It never prints credentials or changes the database. Alternatively, copy `.env.example` to `.env.local` and fill it in manually.
+If PowerShell blocks `npm.ps1`, use `npm.cmd` in place of `npm`.
 
-| Variable                   | Purpose                                                                 |
-| -------------------------- | ----------------------------------------------------------------------- |
-| `MONGODB_URI`              | Atlas URI including the existing application's database name            |
-| `NEXTAUTH_URL`             | Canonical origin, e.g. `http://localhost:3000` locally                  |
-| `NEXTAUTH_SECRET`          | Random secret of at least 32 characters                                 |
-| `CLOUDINARY_CLOUD_NAME`    | Cloudinary account name                                                 |
-| `CLOUDINARY_API_KEY`       | Server-side signing API key; returned only as needed for signed uploads |
-| `CLOUDINARY_API_SECRET`    | Server-only Cloudinary signing secret                                   |
-| `MAPTILER_API_KEY`         | Server-side geocoding key                                               |
-| `NEXT_PUBLIC_MAPTILER_KEY` | Browser map key; use domain restrictions and configure before building  |
+## Available scripts
 
-Never prefix database, authentication, or Cloudinary secrets with `NEXT_PUBLIC_`. Server environment variables are validated with Zod at request time, allowing builds without database access. The browser map key has a separate typed environment module. Maps show a clean fallback when the browser key, WebGL, or provider is unavailable.
+| Command                    | Purpose                                                       |
+| -------------------------- | ------------------------------------------------------------- |
+| `npm run dev`              | Start the local development server                            |
+| `npm run build`            | Create a production build                                     |
+| `npm start`                | Serve the production build                                    |
+| `npm run typecheck`        | Check TypeScript types                                        |
+| `npm test`                 | Run unit and DOM tests                                        |
+| `npm run test:integration` | Run isolated replica-set integration tests                    |
+| `npm run format`           | Format the application and supporting files                   |
+| `npm run setup:env`        | Create local configuration from legacy environment variables  |
+| `npm run db:indexes`       | Explicitly create required indexes in the configured database |
 
-## Application structure
+## Project structure
 
 ```text
 src/
-  app/                  Server-rendered pages, loading/error boundaries, API routes
-  components/
-    forms/              React Hook Form + Zod account and listing forms
-    layout/             Responsive navigation and footer
-    listings/           Search, filters, galleries, owner actions, NPR prices
-    maps/               Browser-only MapTiler SDK lifecycle
-    reviews/            TanStack Query optimistic reviews and rating summaries
-    theme/              Accessible Radix Light / Dark / System preference menu
-    ui/                 shadcn-style Radix primitives and shared buttons
-  providers/            Theme, NextAuth, TanStack Query, and shared VAT state
-  lib/
-    actions/            Authenticated Server Actions using the shared services
-    auth/               NextAuth credentials/JWT sessions, passwords, DB rate limits
-    services/           Listing/review rules, Cloudinary verification, geocoding
-    utils/pricing.ts    NPR formatting and 13% VAT calculations in paisa
-    validation/         Shared Zod request and form schemas
-    env.ts              Server-only validated secrets
-    env.client.ts       Browser-visible configuration
-    db.ts               Cached, bounded serverless MongoDB connection pool
-  models/               Strict TypeScript Mongoose models
-  types/                Database interfaces, serialized DTOs, session augmentation
-scripts/                Local configuration, explicit index setup, isolated QA tools
-tests/                  Unit and disposable replica-set integration tests
+  app/          Pages, layouts, API routes, and metadata
+  components/   Branding, forms, listings, maps, reviews, and shared UI
+  providers/    Theme, session, query, and pricing providers
+  lib/          Server Actions, services, authentication, validation, and utilities
+  models/       Typed Mongoose models
+  types/        Shared database and application types
+public/
+  branding/     Logos, app icons, and social preview artwork
+scripts/        Environment setup, index maintenance, and isolated QA tools
+tests/          Unit, DOM, and database integration tests
+docs/           Development guide and migration commit reference
 ```
 
-The original `app.js`, `controllers`, `models`, `routes`, `views`, `utils`, `init`, `schema.js`, and `cloudconfig.js` remain as migration references. Express middleware is retained as `legacy-middleware.js` so Next.js does not discover it as framework middleware. They are **inactive**: the npm scripts start Next.js, and TypeScript checks the new `src` tree. Express, EJS, Passport, Joi, and their session middleware are no longer application dependencies. Retained branding assets in `public/images` remain available.
+## Migration notes
 
-## Themes and shared client state
+The active application lives under `src/`. Most original Express/EJS files remain in the repository as migration references; the npm scripts run Next.js.
 
-Brand assets live in `public/branding`. `src/lib/branding.ts` records their paths and the supplied social image dimensions. The navbar and footer use `BrandLogo`, which selects the light/dark PNG through the root theme class before hydration. Its fixed layout clips the transparent vertical margins of the original horizontal logo files without modifying the artwork.
+- Existing MongoDB collections, document IDs, listing ownership, and review relationships are preserved.
+- Existing Passport password hashes are verified and upgraded after successful login.
+- The original Express middleware was renamed to `legacy-middleware.js` to avoid Next.js middleware discovery.
+- The previous manifest was replaced by the branded `/manifest.webmanifest`.
+- Legacy Express, EJS, Passport, and Joi packages are no longer application dependencies.
 
-Root metadata references the supplied PNG favicon, 180px Apple touch icon, and Open Graph/Twitter social preview. The typed `/manifest.webmanifest` uses the 192px and 512px app icons; the old `/manifest.json` URL redirects there. These manifest entries do not add offline functionality. Social image URLs use the canonical `NEXTAUTH_URL` origin (or the Vercel production domain when unset), so configure the public HTTPS origin when deploying. Replacing a branding file at the same path may require a hard refresh or clearing a browser's favicon cache.
+See the [development and migration guide](docs/DEVELOPMENT.md) for architecture, API routes, database compatibility, branding, and isolated preview instructions. The [migration commit reference](docs/MIGRATION_COMMITS.md) records the ten original migration commits and their file groups.
 
-The single floating theme menu offers Light, Dark, and System on desktop and mobile. It stays visible at the lower-left of the viewport while scrolling, clear of the bottom-right toast area. System is the default and follows operating-system changes. `next-themes` applies the saved preference before the page paints, using the `dark`/`light` class on the root element. Only that element suppresses its expected hydration difference; theme-dependent menu state waits until mounting. The theme provider also disables transitions during preference changes and sets the browser color scheme for native controls.
+## Quality checks
 
-Semantic CSS variables cover surfaces, text, buttons, borders, focus indicators, forms, dialogs, photo controls, and skeletons. Toasts follow the active preference. MapTiler switches between its light and dark Streets styles without recreating the map or resetting the viewport. The minimal global error document follows the operating-system color scheme if the main provider cannot mount.
-
-Theme selection uses `aawasly:theme` in local storage; VAT uses the independent `aawasly:include-tax` key. VAT changes update all cards and detail prices and synchronize across tabs. Theme preferences are presentation state and do not alter listing, review, or user documents. If storage is unavailable, both controls still work for the current session.
-
-The implementation follows the [shadcn/ui Next.js theme setup](https://ui.shadcn.com/docs/dark-mode/next) and [next-themes hydration guidance](https://github.com/pacocoursey/next-themes#avoid-hydration-mismatch).
-
-## Data and account compatibility
-
-- Existing `listings`, `reviews`, and `users` collection names and ObjectIds are unchanged.
-- Existing listing fields, review references, ownership, GeoJSON coordinates, and ten category values are preserved.
-- `image` remains the cover photo. Optional `images` and `amenities` support galleries and filtering. Older listings fall back to their original `image` and an empty amenities list.
-- `price` remains a pre-tax NPR number. VAT is calculated on demand, rounded to paisa, and controlled by a shared persisted browser preference on both cards and detail pages.
-- Existing Passport username/password hashes are verified using the original package's PBKDF2 settings. Successful login replaces them with an independently salted scrypt hash. Users do not need password resets. Existing Express sessions do not carry across; users log in again.
-- New users need a password of at least 12 characters. Legacy users retain their existing password until they choose to change it in a future account-management feature.
-- Owner privileges are determined **per listing**. A host can edit/delete their own listing; a regular user can review listings and delete their own reviews. No client-provided role or owner ID grants access.
-- Listings and their reviews are deleted in one transaction. Review creation/deletion atomically maintains listing references; deletion verifies both authorship and membership of the review in that listing.
-- New bookings can reference `Listing` and `User` ObjectIds in a separate collection without changing the current schemas. Bookings, availability calendars, payments, password recovery, and email delivery are not implemented in this phase.
-
-Before deployment, back up the database and verify that every listing has a valid category and valid GeoJSON coordinates. The original `init/index.js` is destructive and is not used by this migration.
-
-## API
-
-| Method         | Endpoint                              | Access                                          |
-| -------------- | ------------------------------------- | ----------------------------------------------- |
-| GET            | `/api/listings`                       | Public, validated search/filter/sort/pagination |
-| POST           | `/api/listings`                       | Authenticated                                   |
-| GET            | `/api/listings/:id`                   | Public                                          |
-| PATCH / DELETE | `/api/listings/:id`                   | Listing owner                                   |
-| GET            | `/api/listings/:id/reviews`           | Public                                          |
-| POST           | `/api/listings/:id/reviews`           | Authenticated                                   |
-| DELETE         | `/api/listings/:id/reviews/:reviewId` | Review author; review must belong to listing    |
-| POST           | `/api/uploads/signature`              | Authenticated; bounded signing rate             |
-| POST           | `/api/auth/signup`                    | Public, rate limited, same-origin JSON          |
-| GET / POST     | `/api/auth/*`                         | NextAuth session, CSRF, credentials, sign-out   |
-
-Search parameters: `q`, `category`, `minPrice`, `maxPrice`, `minRating`, `amenities` (comma separated), `sort` (`newest`, `price-asc`, `price-desc`, `rating`), and `page`. Prices filter against the pre-tax NPR nightly rate. Results contain at most 12 listings. Regex metacharacters in searches are escaped.
-
-Mutation handlers validate inputs, reject foreign origins, and derive identities from HTTP-only JWT session cookies. NextAuth handles its own CSRF protection; custom JSON mutation routes enforce the configured canonical origin. Rate limits use MongoDB counters shared across serverless instances, with a TTL index for cleanup. On Vercel, IP limiting uses Vercel's overwritten IP header; local development shares one IP bucket.
-
-The React listing forms, owner deletion dialog, and optimistic review mutations use Server Actions in `src/lib/actions/listings.ts`. Each action independently authenticates the caller, validates untrusted arguments with Zod, applies mutation rate limits, and delegates ownership and transaction rules to the existing services. Successful mutations revalidate browse and detail pages. Errors return a typed, serializable result without exposing provider details. Next.js provides the Server Action origin checks; the JSON API remains available and uses the same services. Cloudinary signing and NextAuth continue to use their API handlers.
-
-Photos upload directly to Cloudinary using server-generated signatures and unique user-scoped public IDs. The browser checks formats and the 8 MB limit; the server verifies the uploaded resource, folder ownership, format, and size before attaching it to a listing. Existing photos remain valid during edits. File bytes do not pass through Vercel functions. Unattached or superseded Cloudinary resources are retained; configure an asset-retention process for storage housekeeping.
-
-## Checks and isolated QA
-
-```sh
+```bash
 npm run typecheck
 npm test
 npm run test:integration
 npm run build
 ```
 
-The integration suite starts a disposable single-node MongoDB replica set. It **never reads `.env.local` or uses Atlas**. Its first run may download a MongoDB binary into ignored `.cache/mongodb-binaries`.
+Integration tests use a disposable MongoDB replica set rather than your Atlas database. The first run may download a MongoDB binary. Live Cloudinary uploads, MapTiler requests, and visual browser checks should also be verified in the deployment environment.
 
-For a production-server smoke test and local review using six legacy sample listings:
+## Deployment
 
-```sh
-# Terminal 1, after npm run build:
-node scripts/preview-fixture.mjs
-# Terminal 2:
-node scripts/http-smoke.mjs
-```
+The deployment target is **Vercel**, with MongoDB Atlas as the database.
 
-The fixture starts at http://localhost:3100/listing and is deleted when its process exits. Disposable accounts are `preview_host` and `preview_guest`, both with `preview-only-password`. The host uses a legacy Passport hash so smoke tests exercise the real migration path. These accounts do not exist in Atlas. The smoke script is exclusively for this fixture and edits its temporary data. Stop the fixture process when finished.
+1. Import the GitHub repository into Vercel and select the branch containing the Next.js application.
+2. Add the variables from `.env.example` to the appropriate Vercel environments.
+3. Set `NEXTAUTH_URL` to the deployment's public HTTPS origin. Configure `NEXT_PUBLIC_MAPTILER_KEY` before building.
+4. Ensure the Atlas cluster is active and its network access permits your deployment to connect. Use separate databases for preview and production.
+5. Run `npm run db:indexes` from a trusted environment pointed at the intended database before production traffic.
+6. Build with `npm run build`, then verify login, listings, uploads, maps, and reviews.
+7. Replace the **Live demo** placeholder near the top of this README with your deployed URL.
 
-Unit tests cover pricing, shared validation, provider failures, old/new password verification, and Server Action safeguards. DOM tests cover theme selection/persistence, system preference changes, and synchronized VAT displays. Replica-set integration tests cover ownership, review membership, atomic relationships, cascading deletion, filters, rate limiting, origin checks, and request-size limits. The HTTP smoke test exercises production rendering, protected pages, legacy login, cookies, listing edits, and review mutations. DOM tests verify behavior; they do not replace visual browser checks or a first-paint screenshot test.
+Detailed deployment and index-maintenance instructions are in [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md#deploy-to-vercel).
 
-## Deploy to Vercel
+## Author
 
-1. Import this repository as a Next.js project with the repository root as its root directory. Use Node.js 22 or 24 and the committed npm lockfile.
-2. Set all environment variables from `.env.example` in the appropriate Vercel environments. Use a separate Atlas database for Preview. Set `NEXTAUTH_URL` to that deployment's canonical HTTPS origin, and use a strong secret per environment. Configure preview URLs consistently with the origin checks.
-3. Set the browser MapTiler key **before building**, restrict it to approved domains, and enable the intended server geocoding key and Cloudinary account.
-4. Configure Atlas network access for your Vercel networking arrangement. Database code uses the Node.js runtime, not the Edge runtime.
-5. Before production traffic, run `npm run db:indexes` from a trusted environment pointed at the intended database. This explicit maintenance command adds the username uniqueness, listing filter/owner/geospatial, and rate-limit TTL indexes. It does not drop indexes or alter documents. Index creation intentionally does not run during builds or startup; resolve any pre-existing invalid coordinates or duplicate usernames before this step.
-6. Deploy using `npm run build` (the default project build command). Exercise login, uploads, location lookup, review changes, and deletion against the preview database before promoting.
+**Bishal Bhandari**
 
-No production deployment or Atlas data migration is performed by the local setup/build/test commands. Production Cloudinary uploads and MapTiler geocoding require live provider verification in your preview deployment.
+- [Portfolio](https://bhandari-bishal.com.np/)
+- [LinkedIn](https://www.linkedin.com/in/bishal-bhandari-a63b8926a)
+- [GitHub](https://github.com/4Bishal)
 
-Implementation references: [Next.js installation and App Router](https://nextjs.org/docs/app/getting-started/installation), [NextAuth credentials](https://next-auth.js.org/configuration/providers/credentials), [Mongoose with Next.js](https://mongoosejs.com/docs/nextjs.html).
+Built as a full-stack project exploring property discovery, modern authentication, responsive interfaces, and migration from an Express/EJS application to Next.js.
