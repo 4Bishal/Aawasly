@@ -1,3 +1,4 @@
+// Archived Express middleware; keep this filename outside Next.js conventions.
 const Listing = require("./models/listing");
 const Review = require("./models/review");
 const { listingSchema, reviewSchema } = require("./schema.js");

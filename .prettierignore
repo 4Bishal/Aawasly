@@ -1,0 +1,16 @@
+node_modules/
+.next/
+.cache/
+.npm-cache/
+package-lock.json
+/public/
+/views/
+/controllers/
+/routes/
+/models/
+/init/
+/utils/
+/app.js
+/schema.js
+/legacy-middleware.js
+/cloudconfig.js
