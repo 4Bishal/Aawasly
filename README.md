@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <a href="#live-demo">Live Demo</a> ·
+  <a href="https://aawasly.vercel.app/">Live Demo</a> ·
   <a href="#features">Features</a> ·
   <a href="#getting-started">Getting Started</a> ·
   <a href="#deployment">Deployment</a> ·
