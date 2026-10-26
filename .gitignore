@@ -1,3 +1,12 @@
 .env
+.env.*
+!.env.example
+.next/
+.npm-cache/
+.cache/
+out/
+coverage/
+*.tsbuildinfo
+.vercel/
 **/.vscode/
 node_modules/
