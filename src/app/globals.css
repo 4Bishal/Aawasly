@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+  --background: #fdfcf9;
+  --foreground: #243c32;
+  --card: #ffffff;
+  --primary: #b94330;
+  --primary-foreground: #ffffff;
+  --muted: #f2f1eb;
+  --muted-foreground: #62695f;
+  --border: #e0e3da;
+  --accent: #e8eee5;
+  --destructive: #b23e2c;
+}
+.dark {
+  color-scheme: dark;
+  --background: #141b18;
+  --foreground: #e5ece6;
+  --card: #1c2620;
+  --primary: #f39a84;
+  --primary-foreground: #28160f;
+  --muted: #222e27;
+  --muted-foreground: #b0beb3;
+  --border: #3d4c42;
+  --accent: #2c3c31;
+  --destructive: #ffac9b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-destructive: var(--destructive);
+  --font-sans: Arial, Helvetica, sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button:not(:disabled),
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button:not(:disabled) {
+  cursor: pointer;
+}
+a {
+  text-decoration: none;
+}
+::selection {
+  background: #efcabf;
+  color: #243c32;
+}
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+}
+.page-shell {
+  width: min(1240px, calc(100% - 96px));
+  margin-inline: auto;
+}
+.stay-search-input,
+.stay-search-input:focus,
+.stay-search-input:focus-visible {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+}
+.stay-search-input::-webkit-search-cancel-button,
+.stay-search-input::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+.stay-search[data-keyboard-focus="true"]:has(.stay-search-input:focus) {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.19em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+.input {
+  display: block;
+  width: 100%;
+  margin-top: 0.55rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.9rem;
+  padding: 0.8rem 1rem;
+  background: var(--card);
+  color: var(--color-foreground);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.input:focus {
+  outline: 2px solid color-mix(in srgb, var(--primary) 35%, transparent);
+  border-color: var(--color-primary);
+}
+.input[aria-invalid="true"] {
+  border-color: var(--destructive);
+}
+.field-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.field-error {
+  display: block;
+  color: var(--destructive);
+  font-size: 0.75rem;
+  font-weight: 400;
+  margin-top: 0.35rem;
+}
+.category-tab {
+  display: flex;
+  min-width: max-content;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  border-bottom: 2px solid transparent;
+  padding: 0.5rem 0.2rem 1.15rem;
+  font-size: 11px;
+  color: var(--color-muted-foreground);
+  transition: color 0.2s;
+}
+.category-tab:hover {
+  color: var(--color-foreground);
+}
+.category-tab.active {
+  border-color: var(--color-primary);
+  color: var(--color-foreground);
+  font-weight: 600;
+}
+.page-enter {
+  animation: page-enter 0.35s ease-out;
+}
+.maplibregl-ctrl-group,
+.maplibregl-ctrl-attrib {
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+}
+.maplibregl-ctrl-group button + button {
+  border-color: var(--border);
+}
+.dark .maplibregl-ctrl-icon {
+  filter: invert(1);
+}
+.dark .maplibregl-ctrl-attrib-button {
+  filter: invert(1);
+}
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 767px) {
+  .page-shell {
+    width: calc(100% - 40px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
